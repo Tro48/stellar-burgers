@@ -36,7 +36,9 @@ export const getOrdersUserAsync = createAsyncThunk(
 export const OrderSlice = createSlice({
   name: 'order',
   initialState: initOrderState,
-  reducers: {},
+  reducers: {
+    clearOrder: () => initOrderState
+  },
   selectors: {
     getRequest: (state) => state.request,
     getLoading: (state) => state.loading,

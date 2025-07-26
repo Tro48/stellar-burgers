@@ -9,7 +9,7 @@ import {
   Register,
   ResetPassword
 } from '@pages';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -20,6 +20,9 @@ import { getIngredientsAsync } from '../../services/IngridientSlice';
 import type { AppDispatch } from '../../services/store';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 const App = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const bg = location.state && location.state.background;
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(getIngredientsAsync());
@@ -28,7 +31,7 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={location || bg}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
@@ -85,10 +88,8 @@ const App = () => {
           path='/feed/:number'
           element={
             <Modal
-              title={''}
-              onClose={function (): void {
-                throw new Error('Function not implemented.');
-              }}
+              onClose={() => navigate(-1)}
+              title={`#${location.pathname.split('/').pop()?.padStart(6, '0')}`}
             >
               <OrderInfo />
             </Modal>
@@ -97,12 +98,7 @@ const App = () => {
         <Route
           path='/ingredients/:id'
           element={
-            <Modal
-              title={''}
-              onClose={function (): void {
-                throw new Error('Function not implemented.');
-              }}
-            >
+            <Modal title={'Детали ингредиента'} onClose={() => navigate(-1)}>
               <IngredientDetails />
             </Modal>
           }
@@ -112,10 +108,8 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Modal
-                title={''}
-                onClose={function (): void {
-                  throw new Error('Function not implemented.');
-                }}
+                title={`#${location.pathname.split('/').pop()?.padStart(6, '0')}`}
+                onClose={() => navigate(-1)}
               >
                 <OrderInfo />
               </Modal>
