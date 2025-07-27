@@ -1,5 +1,5 @@
 import { ProfileUI } from '@ui-pages';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FC, SyntheticEvent, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUserDataAsync } from '../../services/UserSlice';
 import { AppDispatch } from '../../services/store';
@@ -7,19 +7,20 @@ import { AppDispatch } from '../../services/store';
 export const Profile: FC = () => {
   const user = useSelector(getUser);
   const dispatch = useDispatch<AppDispatch>();
-
-  const [formValue, setFormValue] = useState({
+  const initFormValue = {
     name: user?.name || '',
     email: user?.email || '',
     password: ''
-  });
+  };
 
-  useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
+  const [formValue, setFormValue] = useState(initFormValue);
+
+  useLayoutEffect(() => {
+    setFormValue({
       name: user?.name || '',
-      email: user?.email || ''
-    }));
+      email: user?.email || '',
+      password: ''
+    });
   }, [user]);
 
   const isFormChanged =
@@ -34,11 +35,7 @@ export const Profile: FC = () => {
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
-    setFormValue({
-      name: '',
-      email: '',
-      password: ''
-    });
+    setFormValue(initFormValue);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
