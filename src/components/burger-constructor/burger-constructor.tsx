@@ -2,6 +2,7 @@ import { BurgerConstructorUI } from '@ui';
 import { TConstructorIngredient } from '@utils-types';
 import { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   constructorActions,
   getBun,
@@ -14,19 +15,23 @@ import {
   orderActions
 } from '../../services/OrderSlice';
 import { useDispatch } from '../../services/store';
+import { getIsAuth } from '../../services/UserSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const bun = useSelector(getBun);
   const ingredients = useSelector(getIngredients);
+  const isAuth = useSelector(getIsAuth);
   const constructorItems = {
     bun,
     ingredients
   };
   const orderRequest = useSelector(getRequest);
   const orderModalData = useSelector(getOrderModalData);
+  const nav = useNavigate();
 
   const onOrderClick = () => {
+    if (!isAuth) return nav('/login');
     if (!constructorItems.bun || orderRequest) return;
     const ingredientsIds = [
       ...constructorItems.ingredients.map((ingredient) => ingredient._id),

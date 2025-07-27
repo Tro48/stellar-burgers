@@ -18,14 +18,16 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getIngredientsAsync } from '../../services/IngridientSlice';
 import type { AppDispatch } from '../../services/store';
+import { checkAuthAsync } from '../../services/UserSlice';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const bg = location.state && location.state.background;
+  const bg = location.state?.background;
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(getIngredientsAsync());
+    dispatch(checkAuthAsync());
   }, [dispatch]);
 
   return (
@@ -37,7 +39,7 @@ const App = () => {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Login />
             </ProtectedRoute>
           }
@@ -45,7 +47,7 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Register />
             </ProtectedRoute>
           }
@@ -53,7 +55,7 @@ const App = () => {
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ForgotPassword />
             </ProtectedRoute>
           }
@@ -61,7 +63,7 @@ const App = () => {
         <Route
           path='/reset-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ResetPassword />
             </ProtectedRoute>
           }
