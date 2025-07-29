@@ -33,8 +33,8 @@ export const BurgerConstructor: FC = () => {
     if (!isAuth) return nav('/login');
     if (!constructorItems.bun || orderRequest) return;
     const ingredientsIds = [
-      ...constructorItems.ingredients.map((ingredient) => ingredient._id),
-      constructorItems.bun._id
+      constructorItems.bun._id,
+      ...constructorItems.ingredients.map((ingredient) => ingredient._id)
     ];
     dispatch(createOrderAsync(ingredientsIds));
   };

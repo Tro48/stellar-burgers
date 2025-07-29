@@ -10,7 +10,6 @@ import {
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 import { deleteCookie, getCookie, setCookie } from '../utils/cookie';
-import { stat } from 'fs';
 
 type TUserState = {
   user: TUser | null;
