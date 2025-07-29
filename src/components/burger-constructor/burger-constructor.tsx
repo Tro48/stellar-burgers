@@ -1,7 +1,6 @@
 import { BurgerConstructorUI } from '@ui';
 import { TConstructorIngredient } from '@utils-types';
 import { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   constructorActions,
@@ -14,7 +13,7 @@ import {
   getRequest,
   orderActions
 } from '../../services/OrderSlice';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { getIsAuth } from '../../services/UserSlice';
 
 export const BurgerConstructor: FC = () => {

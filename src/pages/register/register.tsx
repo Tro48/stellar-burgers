@@ -1,14 +1,13 @@
 import { RegisterUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { getError, registerUserAsync } from '../../services/UserSlice';
 
 export const Register: FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const [errorText, setErrorText] = useState('');
   const errorAuth = useSelector(getError);
 

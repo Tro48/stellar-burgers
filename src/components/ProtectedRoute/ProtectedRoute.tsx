@@ -1,8 +1,7 @@
 import { Preloader } from '@ui';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
-import { AppDispatch } from 'src/services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import {
   checkAuthAsync,
   getIsAuth,
@@ -23,7 +22,7 @@ export const ProtectedRoute = ({
   const isLoading = useSelector(getLoading);
   const user = useSelector(getUser);
   const location = useLocation();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isAuth) {

@@ -1,15 +1,14 @@
 import { TIngredient } from '@utils-types';
 import { FC, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { AppDispatch } from 'src/services/store';
 import { getIngridients } from '../../services/IngridientSlice';
 import { getOrderAsync, getOrderModalData } from '../../services/OrderSlice';
+import { useDispatch, useSelector } from '../../services/store';
 import { OrderInfoUI } from '../ui/order-info';
 import { Preloader } from '../ui/preloader';
 
 export const OrderInfo: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const orderData = useSelector(getOrderModalData);
   const ingredients = useSelector(getIngridients);
   const orderId = Number(useParams().id);

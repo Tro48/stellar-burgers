@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getIngridients } from '../../services/IngridientSlice';
+import { useSelector } from '../../services/store';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { Preloader } from '../ui/preloader';
 

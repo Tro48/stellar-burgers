@@ -15,16 +15,15 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { getIngredientsAsync } from '../../services/IngridientSlice';
-import type { AppDispatch } from '../../services/store';
+import { useDispatch } from '../../services/store';
 import { checkAuthAsync } from '../../services/UserSlice';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const bg = location.state?.background;
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getIngredientsAsync());
     dispatch(checkAuthAsync());
