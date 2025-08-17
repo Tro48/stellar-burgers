@@ -8,7 +8,7 @@ type TIngridientState = {
   error: string | null;
 };
 
-const initIngridientState: TIngridientState = {
+export const initIngridientState: TIngridientState = {
   ingridients: [],
   loading: false,
   error: null
