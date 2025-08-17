@@ -3,7 +3,7 @@ import {
   ConstructorSlice,
   TConstructorItem
 } from '../ConstructorSlice';
-import { bunMock, ingredientMock } from './mocks';
+import { bunMock, ingredientMock, sauceMock } from './mocks';
 
 const initialState: TConstructorItem = {
   bun: null,
@@ -37,6 +37,38 @@ describe('тесты ConstructorSlice', () => {
       { ...initialState, ingredients: [ingredientMock] },
       constructorActions.removeIngridient(ingredientMock)
     );
+    expect(state.ingredients).toEqual([]);
+  });
+  test('тест поднятия вверх ингредиента', () => {
+    const state = ConstructorSlice.reducer(
+      { ...initialState, ingredients: [ingredientMock, sauceMock] },
+      constructorActions.upIngridient(sauceMock)
+    );
+    expect(state.ingredients[0]).toMatchObject({
+      ...sauceMock,
+      id: expect.any(String)
+    });
+  });
+  test('тест спуска в низ ингредиента', () => {
+    const state = ConstructorSlice.reducer(
+      { ...initialState, ingredients: [ingredientMock, sauceMock] },
+      constructorActions.downIngridient(ingredientMock)
+    );
+    expect(state.ingredients[0]).toMatchObject({
+      ...sauceMock,
+      id: expect.any(String)
+    });
+  });
+  test('тест очистки конструктора', () => {
+    const state = ConstructorSlice.reducer(
+      {
+        ...initialState,
+        bun: bunMock,
+        ingredients: [ingredientMock, sauceMock]
+      },
+      constructorActions.clearConstructor()
+    );
+    expect(state.bun).toBeNull();
     expect(state.ingredients).toEqual([]);
   });
 });
