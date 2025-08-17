@@ -1,3 +1,5 @@
+import { selectors } from 'cypress/support/selectors';
+
 describe('Constructor Burger', () => {
   beforeEach(() => {
     cy.intercept('GET', '/api/auth/user', {
@@ -11,11 +13,11 @@ describe('Constructor Burger', () => {
     window.localStorage.setItem('refreshToken', 'refreshTokenMock');
     cy.setCookie('accessToken', 'accessTokenMock');
 
-    cy.visit('http://localhost:4000/');
+    cy.visit('/');
     cy.wait('@getUser');
     cy.wait('@getIngredients');
 
-    cy.get('[data-test=ingredient]')
+    cy.get(selectors.ingredient)
       .should('exist')
       .should('have.length', 15)
       .as('ingredients');
@@ -31,53 +33,62 @@ describe('Constructor Burger', () => {
     cy.clearCookie('accessToken');
   });
   it('добавление ингредиента в конструктор', () => {
-    cy.contains('Выберите булки').should('be.visible');
-    cy.contains('Выберите начинку').should('be.visible');
+    cy.contains(selectors.bun).should('be.visible');
+    cy.contains(selectors.main).should('be.visible');
 
     cy.get('@bunAddBtn').click();
-    cy.contains('Выберите булки').should('not.exist');
+    cy.contains(selectors.bun).should('not.exist');
     cy.get('@bun')
       .find('p')
       .eq(2)
       .invoke('text')
       .then((text) => {
-        cy.get('div.constructor-element').should('have.length', 2);
-        cy.get('div.constructor-element').should('contain.text', text.trim());
+        cy.get(selectors.constructorElement).should('have.length', 2);
+        cy.get(selectors.constructorElement).should(
+          'contain.text',
+          text.trim()
+        );
       });
 
     cy.get('@fillingAddBtn').click();
-    cy.contains('Выберите булки').should('not.exist');
+    cy.contains(selectors.bun).should('not.exist');
     cy.get('@bun')
       .find('p')
       .eq(2)
       .invoke('text')
       .then((text) => {
-        cy.get('div.constructor-element').should('have.length', 3);
-        cy.get('div.constructor-element').should('contain.text', text.trim());
+        cy.get(selectors.constructorElement).should('have.length', 3);
+        cy.get(selectors.constructorElement).should(
+          'contain.text',
+          text.trim()
+        );
       });
 
     cy.get('@sauceAddBtn').click();
-    cy.contains('Выберите булки').should('not.exist');
+    cy.contains(selectors.bun).should('not.exist');
     cy.get('@bun')
       .find('p')
       .eq(2)
       .invoke('text')
       .then((text) => {
-        cy.get('div.constructor-element').should('have.length', 4);
-        cy.get('div.constructor-element').should('contain.text', text.trim());
+        cy.get(selectors.constructorElement).should('have.length', 4);
+        cy.get(selectors.constructorElement).should(
+          'contain.text',
+          text.trim()
+        );
       });
   });
   it('закрытие по клику на крестик', () => {
     cy.get('@ingredients').first().click();
-    cy.get('[data-test=modal]').should('exist');
-    cy.get('[data-test=madal-close]').click();
-    cy.get('[data-test=modal]').should('not.exist');
+    cy.get(selectors.modal).should('exist');
+    cy.get(selectors.modalClose).click();
+    cy.get(selectors.modal).should('not.exist');
   });
   it('закрытие по клику на оверлей ', () => {
     cy.get('@ingredients').first().click();
-    cy.get('[data-test=overlay]').should('exist');
-    cy.get('[data-test=overlay]').click({ force: true });
-    cy.get('[data-test=modal]').should('not.exist');
+    cy.get(selectors.overlay).should('exist');
+    cy.get(selectors.overlay).click({ force: true });
+    cy.get(selectors.modal).should('not.exist');
   });
   it('Создание заказа', () => {
     cy.intercept('POST', '/api/orders', { fixture: 'order.json' }).as(
@@ -86,19 +97,19 @@ describe('Constructor Burger', () => {
     cy.get('@bunAddBtn').click();
     cy.get('@fillingAddBtn').click();
     cy.get('@sauceAddBtn').click();
-    cy.get('div.constructor-element').should('have.length', 4);
+    cy.get(selectors.constructorElement).should('have.length', 4);
     cy.contains('Оформить заказ').click();
     cy.wait('@createOrder');
-    cy.get('[data-test=modal]').should('exist');
+    cy.get(selectors.modal).should('exist');
     cy.fixture('order.json').then((res) => {
-      cy.get('[data-test=orderNumber]')
+      cy.get(selectors.numberOrder)
         .should('exist')
         .and('have.text', res.order.number.toString());
     });
-    cy.get('[data-test=madal-close]').click();
-    cy.get('[data-test=modal]').should('not.exist');
-    cy.contains('Выберите булки').should('be.visible');
-    cy.contains('Выберите начинку').should('be.visible');
-    cy.get('div.constructor-element').should('have.length', 0);
+    cy.get(selectors.modalClose).click();
+    cy.get(selectors.modal).should('not.exist');
+    cy.contains(selectors.bun).should('be.visible');
+    cy.contains(selectors.main).should('be.visible');
+    cy.get(selectors.constructorElement).should('have.length', 0);
   });
 });
