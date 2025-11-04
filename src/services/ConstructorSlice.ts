@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { v4 as uuidv4 } from 'uuid';
 
-type TConstructorItem = {
+export type TConstructorItem = {
   bun: TIngredient | null;
   ingredients: TConstructorIngredient[];
 };

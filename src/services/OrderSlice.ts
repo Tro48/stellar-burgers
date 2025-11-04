@@ -10,7 +10,7 @@ export type TorderState = {
   ordersUser: TOrder[];
 };
 
-const initOrderState: TorderState = {
+export const initOrderState: TorderState = {
   request: false,
   loading: false,
   error: null,

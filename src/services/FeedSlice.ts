@@ -9,7 +9,7 @@ type TFeedState = {
   loading: boolean;
   error: string | null;
 };
-const initFeedState: TFeedState = {
+export const initFeedState: TFeedState = {
   orders: [],
   total: 0,
   totalToday: 0,
